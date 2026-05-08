@@ -4,129 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Монгол Бичиг — Тоглоом</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Ерөнхий загвар */
-        *{margin:0;padding:0;box-sizing:border-box;}
-        body,html{width:100%;height:100%;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#0f172a; color:#f8fafc; overflow-x:hidden;}
-        
-       header{
-  position:fixed;
-  top:0;
-  width:100%;
-  display:flex;
-  justify-content:center;
-  gap:24px;
-  padding:14px 0;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(6px);
-  border-bottom:1px solid #d4af37;
-  z-index:100;
-}
-header a{
-  color:#d4af37;
-  font-weight:600;
-}
-header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid #d4af37;
-        z-index: 1000;
-        
-        /* Цэсийг голлуулах ба гүйлгэх тохиргоо */
-        display: flex;
-        justify-content: center; 
-        overflow-x: auto; /* Багтахгүй бол гүйлгэнэ */
-        white-space: nowrap; /* Цэсийг доош унагахгүй, нэг эгнээнд байлгана */
-        scrollbar-width: none; /* Firefox-т scrollbar нуух */
-    }
-
-    /* Chrome, Safari-д scrollbar нуух (гэхдээ гүйнэ) */
-    header::-webkit-scrollbar {
-        display: none;
-    }
-
-    header nav {
-        display: flex;
-        padding: 15px 20px;
-        gap: 25px;
-    }
-
-    header a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: 0.3s;
-        flex-shrink: 0; /* Цэсийг шахагдахаас хамгаална */
-    }
-
-    header a:hover {
-        color: #d4af37;
-    }
-
-    /* Идэвхтэй байгаа хуудасны өнгө */
-    header a.active {
-        color: #d4af37;
-        border-bottom: 2px solid #d4af37;
-        padding-bottom: 5px;
-    }
-
-    /* Жижиг дэлгэц дээр (Гар утас) */
-    @media (max-width: 768px) {
-        header {
-            justify-content: flex-start; /* Утас дээр зүүн талаас эхэлж гүйнэ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html {
+            width: 100%; height: 100%;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a0a; color: #fff;
+            overflow-x: hidden; padding-top: 56px;
         }
-        header nav {
-            gap: 20px;
-            padding: 15px 15px;
-        }
-        header a {
-            font-size: 11px; /* Текстийг бага зэрэг жижигсгэнэ */
-        }
-    }
 
-        /* Scoreboard */
+        #site-header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid #d4af37; z-index: 9999;
+        }
+        #site-header .nav-inner {
+            position: relative; display: flex; align-items: center; height: 56px; max-width: 1200px; margin: 0 auto;
+        }
+        #site-header nav {
+            display: flex; justify-content: center; align-items: center; width: 100%; height: 56px;
+            overflow-x: auto; scrollbar-width: none; padding: 0 20px;
+        }
+        #site-header nav::-webkit-scrollbar { display: none; }
+        #site-header nav a {
+            color: #ccc; text-decoration: none; font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.8px; padding: 6px 14px;
+            border-radius: 6px; white-space: nowrap; flex-shrink: 0; transition: 0.2s;
+        }
+        #site-header nav a:hover { color: #d4af37; background: rgba(212,175,55,0.08); }
+        #site-header nav a.active { color: #d4af37; border-bottom: 2px solid #d4af37; border-radius: 0; }
+
+        #nav-burger {
+            display: none; position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer; padding: 6px; flex-direction: column; gap: 5px;
+        }
+        #nav-burger span { display: block; width: 24px; height: 2px; background: #d4af37; border-radius: 2px; transition: 0.3s; }
+        #site-header.menu-open #nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        #site-header.menu-open #nav-burger span:nth-child(2) { opacity: 0; }
+        #site-header.menu-open #nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        #nav-drawer {
+            display: none; flex-direction: column; background: rgba(0,0,0,0.97);
+            border-top: 1px solid rgba(212,175,55,0.2); overflow: hidden; max-height: 0; transition: max-height 0.35s ease;
+        }
+        #site-header.menu-open #nav-drawer { max-height: 600px; }
+        #nav-drawer a { color: #ccc; text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; padding: 15px 28px; border-left: 3px solid transparent; transition: 0.2s; }
+        #nav-drawer a.active { color: #d4af37; border-left-color: #d4af37; background: rgba(212,175,55,0.08); }
+
+        @media(max-width:768px) { #site-header nav { display: none; } #nav-burger { display: flex; } #nav-drawer { display: flex; } }
+
         .scoreboard {
-            margin-top: 60px; text-align: center; font-size: 1.2rem;
-            font-weight: bold; color: #fbbf24; background: rgba(30, 41, 59, 0.5);
-            padding: 10px; border-bottom: 1px solid #334155;
+            text-align: center; font-size: 1.1rem; font-weight: bold; color: #d4af37;
+            background: #111; padding: 15px; border-bottom: 1px solid #222;
         }
 
-        h1 {
-            writing-mode:vertical-rl;
-            text-align: center; margin: 40px 0 20px; font-size: 2.5rem;;
-            background: linear-gradient(to right, #fbbf24, #f59e0b);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .main-title {
+            text-align: center; margin: 40px 0; font-size: 2.5rem; color: #d4af37;
+            text-transform: uppercase; letter-spacing: 3px;
         }
 
-        /* Container & Cards */
-        .container { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; padding: 20px; max-width: 1100px; margin: 0 auto; }
+        .container { display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        
         .card {
-            background: rgba(30, 41, 59, 0.8); border: 2px solid #334155; border-radius: 20px;
-            padding: 25px; width: 280px; text-align: center; transition: 0.3s ease;
-            filter: grayscale(100%); opacity: 0.5; cursor: not-allowed;
+            background: #151515; border: 1px solid #222; border-radius: 20px;
+            padding: 30px; width: 300px; text-align: center; transition: 0.4s;
+            filter: grayscale(100%); opacity: 0.4; cursor: not-allowed;
         }
-        .card.unlocked { filter: grayscale(0%); opacity: 1; cursor: pointer; border-color: #fbbf24; }
-        .card.unlocked:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3); }
-        .level-icon { font-size: 3rem; margin-bottom: 10px; color: #fbbf24; display: block;writing-mode: vertical-rl; }
-
-        /* Modal & Game UI */
-        .modal { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .card.unlocked { filter: grayscale(0%); opacity: 1; cursor: pointer; border-color: #d4af37; }
+        .card.unlocked:hover { transform: translateY(-10px); border-color: #d4af37; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); }
+        
+        .level-icon { font-size: 3rem; margin-bottom: 15px; color: #d4af37; display: block; }
+        .card h3 { margin-bottom: 10px; color: #fff; }
+        .card p { color: #888; font-size: 0.9rem; }
+        .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(10px); }
         .modal.active { display: flex; }
-        .modal-content { background: #1e293b; border: 2px solid #fbbf24; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; text-align: center; position: relative;}
-        .question-box { margin-bottom: 20px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 15px; font-size: 1.2rem; }
-        input[type="text"] { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #475569; background: #0f172a; color: white; text-align: center; font-size: 1.1rem; }
-        .btn-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        button { padding: 12px 20px; border: none; border-radius: 10px; background: #fbbf24; color: #0f172a; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        button:hover { background: #f59e0b; }
-        .close-btn { background: #f87171; color: white; margin-top: 15px; width: 100%; }
+        .modal-content { background: #111; border: 1px solid #d4af37; padding: 40px; border-radius: 25px; width: 90%; max-width: 500px; text-align: center; }
+        
+        .question-box { margin-bottom: 25px; padding: 20px; background: rgba(212, 175, 55, 0.05); border-radius: 15px; border: 1px solid #333; }
+        input[type="text"] { 
+            width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; 
+            border: 1px solid #333; background: #0a0a0a; color: white; text-align: center; font-size: 1.1rem; outline: none;
+        }
+        input:focus { border-color: #d4af37; }
+        
+        .btn-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        button.game-btn { padding: 14px; border: none; border-radius: 12px; background: #d4af37; color: #000; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.9rem; }
+        button.game-btn:hover { background: #fff; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .close-btn { background: #333 !important; color: #fff !important; margin-top: 20px; width: 100%; }
 
-        /* Animation for feedback */
         @keyframes popUp {
             0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
             50% { transform: translate(-50%, -60%) scale(1.1); opacity: 1; }
@@ -136,39 +102,55 @@ header {
 </head>
 <body>
 
- <header>
-  <a href="index.html">нүүр хуудас</a>
-  <a href="about.html">тухай</a>
-  <a href="portfolio.html">Бүтээлүүд</a>
-  <a href="custom.html">Захиалгат</a>
-  <a href="courses.html">Хичээлүүд</a>
-  <a href="services.html">Үйлчилгээ</a>
-  <a href="blog.html">блог
-
-
-  </a>
-  <a href="events.html">үйл ажиллагаа</a>
-  <a href="testimonials.html">сэтгэгдэл</a>
-  <a href="contact.html">холбоо барих</a>
+<header id="site-header">
+    <div class="nav-inner">
+        <nav>
+            <a href="index.html">Нүүр хуудас</a>
+            <a href="about.html">Тухай</a>
+            <a href="portfolio.html">Бүтээлүүд</a>
+            <a href="custom.html">Захиалгат</a>
+            <a href="courses.html">Хичээлүүд</a>
+            <a href="services.html">Үйлчилгээ</a>
+            <a href="blog.html">Блог</a>
+            <a href="events.html">Үйл ажиллагаа</a>
+            <a href="testimonials.html">Сэтгэгдэл</a>
+            <a href="contact.html">Холбоо барих</a>
+        </nav>
+        <button id="nav-burger" aria-label="Цэс нээх">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div id="nav-drawer">
+        <a href="index.html">Нүүр хуудас</a>
+        <a href="about.html">Тухай</a>
+        <a href="portfolio.html">Бүтээлүүд</a>
+        <a href="custom.html">Захиалгат</a>
+        <a href="courses.html">Хичээлүүд</a>
+        <a href="services.html">Үйлчилгээ</a>
+        <a href="blog.html">Блог</a>
+        <a href="events.html">Үйл ажиллагаа</a>
+        <a href="testimonials.html">Сэтгэгдэл</a>
+        <a href="contact.html">Холбоо барих</a>
+    </div>
 </header>
 
 <div class="scoreboard">Оноо: <span id="score">0</span> | Нээгдсэн шат: <span id="user-lvl">1</span></div>
 
-<h1>ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ</h1>
+<h1 class="main-title">Монгол Бичиг</h1>
 
 <div class="container">
     <div class="card unlocked" id="card-1" onclick="openLevel(1)">
-        <span class="level-icon">ᠠᠩᠬᠠᠨ </span>
+        <span class="level-icon">ᠠ</span>
         <h3>Анхан шат</h3>
         <p>Зурлага болон үндсэн үсэг</p>
     </div>
     <div class="card" id="card-2" onclick="openLevel(2)">
-        <span class="level-icon"> ᠳᠤᠮᠳᠠ</span>
+        <span class="level-icon">ᠪ</span>
         <h3>Дунд шат</h3>
         <p>Үг бүтээх ба унших</p>
     </div>
     <div class="card" id="card-3" onclick="openLevel(3)">
-        <span class="level-icon">ᠠᠬᠠᠯᠠᠬᠤ</span>
+        <span class="level-icon">ᠴ</span>
         <h3>Ахлах шат</h3>
         <p>Өгүүлбэр ба дүрэм</p>
     </div>
@@ -176,152 +158,133 @@ header {
 
 <div class="modal" id="gameModal">
     <div class="modal-content">
-        <h2 id="qTitle" style="color:#fbbf24; margin-bottom:15px;">Даалгавар</h2>
+        <h2 id="qTitle" style="color:#d4af37; margin-bottom:15px; font-size: 1.2rem;">Даалгавар</h2>
         <div id="gameArea"></div>
-        <button class="close-btn" onclick="closeModal()">Тоглоомыг зогсоох</button>
+        <button class="game-btn close-btn" onclick="closeModal()">Тоглоомыг зогсоох</button>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-let score = 0;
-let unlockedLevel = 1;
-let currentQIndex = 0;
-let currentLvl = 1;
-let currentTasks = [];
+   
+    const navBurger = document.getElementById("nav-burger");
+    const siteHeader = document.getElementById("site-header");
 
-const encouragements = [
-    "Маш сайн байна! 🎉",
-    "Гайхалтай! ✨",
-    "Зөв хариуллаа! 💪",
-    "Монгол бичгийн мастер! 🏹",
-    "Яг зөв! 🔥",
-    "Мундаг байна! ⭐"
-];
+    navBurger.onclick = (e) => {
+        e.stopPropagation();
+        siteHeader.classList.toggle("menu-open");
+    };
+    document.addEventListener("click", (e) => {
+        if (!siteHeader.contains(e.target)) siteHeader.classList.remove("menu-open");
+    });
 
-const tasksData = {
-    1: [
-        { type: "choice", q: "Монгол бичгийн үгийн эхэнд ордог зурлагыг юу гэдэг вэ?", a: ["Титэм", "Шүд", "Гэдэс"], c: "Титэм" },
-        { type: "choice", q: "Монгол бичгийн гол шугамыг юу гэж нэрлэдэг вэ?", a: ["Нуруу", "Шилбэ", "Гэдэс"], c: "Нуруу" },
-        { type: "input", q: "Үг дунд ордог богино зурлагыг юу гэдэг вэ? (Ш...)", c: "шүд" },
-        { type: "choice", q: "У болон Ү үсэгт ордог дугуй зурлагыг юу гэдэг вэ?", a: ["Ацаг", "Эвэр", "Гэдэс"], c: "Гэдэс" },
-        { type: "input", q: "Нарийн урт зурлагыг юу гэж нэрлэдэг вэ? (Шил...)", c: "шилбэ" },
-        { type: "choice", q: "Монгол бичгийн хамгийн анхны эгшиг үсэг юу вэ?", a: ["Э", "А", "И"], c: "А" },
-        { type: "input", q: "Үгийн төгсгөлд ордог 'А, Э' үсгийн зурлагыг юу гэх вэ? (Ор...)", c: "орхиц" },
-        { type: "choice", q: "Гэдэс зурлагыг хааш нь харуулж бичдэг вэ?", a: ["Зүүн", "Баруун", "Дээш"], c: "Баруун" }
-    ],
-    2: [
-        { type: "choice", q: "'ᠳᠤᠨᠳᠤ' гэдэг үгийг кириллээр юу гэх вэ?", a: ["Дунд", "Дор", "Дандаа"], c: "Дунд" },
-        { type: "input", q: "'Сайн' гэдгийг галиглаж бичнэ үү (С...)", c: "сайин" },
-        { type: "choice", q: "'ᠨᠠᠷᠠ' гэдэг үг ямар утгатай вэ?", a: ["Сар", "Од", "Наран"], c: "Наран" },
-        { type: "choice", q: "'ᠪᠠᠭᠰᠢ' гэдэг үгийг кириллээр юу гэх вэ?", a: ["Багш", "Бэрх", "Богд"], c: "Багш" },
-        { type: "input", q: "'Монгол' гэж бичихэд эхний үе нь юу байх вэ? (М...)", c: "мон" },
-        { type: "choice", q: "Эгшиг үсгүүд хэдэн янзаар бичигддэг вэ?", a: ["1", "2", "3"], c: "3" },
-        { type: "input", q: "'Миний' гэдгийг галиглаж бичнэ үү (М...)", c: "миний" },
-        { type: "choice", q: "'ᠭᠡᠷ' гэдэг үг юуг илэрхийлэх вэ?", a: ["Гэр", "Гал", "Гар"], c: "Гэр" }
-    ],
-    3: [
-        { type: "choice", q: "Чингисийн чулууны бичиг хэдэн онд бичигдсэн бэ?", a: ["1224", "1206", "1300"], c: "1224" },
-        { type: "input", q: "'Эх орон' гэдгийг 'ᠡᠬᠡ ____' гэж нөхнө үү. (О...)", c: "орон" },
-        { type: "choice", q: "Монгол бичиг аль аймгийн бичгээс гаралтай вэ?", a: ["Төвд", "Уйгар", "Араб"], c: "Уйгар" },
-        { type: "choice", q: "Эрэгтэй эгшигт аль нь орох вэ?", a: ["А, О, У", "Э, Ө, Ү", "И"], c: "А, О, У" },
-        { type: "input", q: "Монгол бичгээр бичигдсэн хамгийн эртний дурсгал юу вэ?", c: "чингисийн чулууны бичиг" },
-        { type: "choice", q: "Монгол бичигт хэдэн үндсэн эгшиг байдаг вэ?", a: ["5", "7", "9"], c: "7" },
-        { type: "choice", q: "Монгол бичигт ямар эгшгийг 'саармаг эгшиг' гэдэг вэ?", a: ["А", "И", "У"], c: "И" },
-        { type: "input", q: "Монгол бичгийг дээрээс доош, зүүнээс _____ тийш бичдэг.", c: "баруун" }
-    ]
-};
+    let score = 0;
+    let unlockedLevel = 1;
+    let currentQIndex = 0;
+    let currentLvl = 1;
+    let currentTasks = [];
 
-function openLevel(lvl) {
-    if (lvl > unlockedLevel) { alert("Энэ шат хаалттай байна!"); return; }
-    currentLvl = lvl;
-    currentQIndex = 0;
-    currentTasks = [...tasksData[lvl]].sort(() => Math.random() - 0.5);
-    document.getElementById('gameModal').classList.add('active');
-    renderQuestion();
-}
+    const encouragements = ["Маш сайн байна! 🎉", "Гайхалтай! ✨", "Зөв хариуллаа! 💪", "Монгол бичгийн мастер! 🏹", "Яг зөв! 🔥"];
 
-function renderQuestion() {
-    const area = document.getElementById('gameArea');
-    const task = currentTasks[currentQIndex];
-    document.getElementById('qTitle').textContent = `Шат ${currentLvl} - Асуулт ${currentQIndex + 1}/${currentTasks.length}`;
-    area.innerHTML = `<div class="question-box"><p>${task.q}</p></div>`;
+    const tasksData = {
+        1: [
+            { type: "choice", q: "Монгол бичгийн үгийн эхэнд ордог зурлагыг юу гэдэг вэ?", a: ["Титэм", "Шүд", "Гэдэс"], c: "Титэм" },
+            { type: "choice", q: "Монгол бичгийн гол шугамыг юу гэж нэрлэдэг вэ?", a: ["Нуруу", "Шилбэ", "Гэдэс"], c: "Нуруу" },
+            { type: "input", q: "Үг дунд ордог богино зурлагыг юу гэдэг вэ? (Ш...)", c: "шүд" }
+        ],
+        2: [
+            { type: "choice", q: "'ᠳᠤᠨᠳᠤ' гэдэг үгийг кириллээр юу гэх вэ?", a: ["Дунд", "Дор", "Дандаа"], c: "Дунд" },
+            { type: "input", q: "'Сайн' гэдгийг галиглаж бичнэ үү (С...)", c: "сайин" }
+        ],
+        3: [
+            { type: "choice", q: "Чингисийн чулууны бичиг хэдэн онд бичигдсэн бэ?", a: ["1224", "1206", "1300"], c: "1224" },
+            { type: "input", q: "Монгол бичгийг дээрээс доош, зүүнээс _____ тийш бичдэг.", c: "баруун" }
+        ]
+    };
 
-    if (task.type === "choice") {
-        const grid = document.createElement('div');
-        grid.className = "btn-grid";
-        task.a.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.textContent = opt;
-            btn.onclick = () => check(opt, task.c);
-            grid.appendChild(btn);
-        });
-        area.appendChild(grid);
-    } else {
-        area.innerHTML += `
-            <input type="text" id="userInput" placeholder="Хариултаа бичээд Enter дар..." autocomplete="off">
-            <button onclick="handleInput()" style="width:100%">Шалгах</button>
-        `;
-        const input = document.getElementById('userInput');
-        input.focus();
-        input.onkeyup = (e) => { if(e.key === "Enter") handleInput(); };
+    function openLevel(lvl) {
+        if (lvl > unlockedLevel) { alert("Энэ шат хаалттай байна!"); return; }
+        currentLvl = lvl;
+        currentQIndex = 0;
+        currentTasks = [...tasksData[lvl]].sort(() => Math.random() - 0.5);
+        document.getElementById('gameModal').classList.add('active');
+        renderQuestion();
     }
-}
 
-function handleInput() {
-    const input = document.getElementById('userInput');
-    if(!input) return;
-    check(input.value.trim().toLowerCase(), currentTasks[currentQIndex].c.toLowerCase());
-}
+    function renderQuestion() {
+        const area = document.getElementById('gameArea');
+        const task = currentTasks[currentQIndex];
+        document.getElementById('qTitle').textContent = `Шат ${currentLvl} - Асуулт ${currentQIndex + 1}/${currentTasks.length}`;
+        area.innerHTML = `<div class="question-box"><p>${task.q}</p></div>`;
 
-function check(u, c) {
-    if (u === c) {
-        score += 20;
-        document.getElementById('score').textContent = score;
-        
-        // Санамсаргүй урамшуулал харуулах
-        const msg = encouragements[Math.floor(Math.random() * encouragements.length)];
-        showFeedback(msg);
-
-        // Салют эффект
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#fbbf24', '#ffffff'] });
-
-        currentQIndex++;
-        if (currentQIndex < currentTasks.length) {
-            setTimeout(renderQuestion, 1200);
+        if (task.type === "choice") {
+            const grid = document.createElement('div');
+            grid.className = "btn-grid";
+            task.a.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "game-btn";
+                btn.textContent = opt;
+                btn.onclick = () => check(opt, task.c);
+                grid.appendChild(btn);
+            });
+            area.appendChild(grid);
         } else {
-            finish();
+            area.innerHTML += `
+                <input type="text" id="userInput" placeholder="Хариултаа бичээд шалгах товчийг дар..." autocomplete="off">
+                <button class="game-btn" onclick="handleInput()" style="width:100%">Шалгах</button>
+            `;
+            setTimeout(() => document.getElementById('userInput').focus(), 100);
         }
-    } else {
-        alert("Буруу байна, дахин оролдоорой! 🤔");
     }
-}
 
-function showFeedback(msg) {
-    const fb = document.createElement('div');
-    fb.style = `position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-                background: #fbbf24; color: #0f172a; padding: 15px 30px; border-radius: 50px; 
-                font-weight: bold; font-size: 1.4rem; z-index: 3000; animation: popUp 1.2s forwards; pointer-events: none;`;
-    fb.innerText = msg;
-    document.body.appendChild(fb);
-    setTimeout(() => fb.remove(), 1200);
-}
-
-function finish() {
-    if (currentLvl === unlockedLevel && unlockedLevel < 3) {
-        unlockedLevel++;
-        document.getElementById(`card-${unlockedLevel}`).classList.add('unlocked');
-        document.getElementById('user-lvl').textContent = unlockedLevel;
+    function handleInput() {
+        const input = document.getElementById('userInput');
+        check(input.value.trim().toLowerCase(), currentTasks[currentQIndex].c.toLowerCase());
     }
-    document.getElementById('gameArea').innerHTML = `
-        <h2 style="color:#4ade80;">Баяр хүргэе! 🎉</h2>
-        <p style="margin:10px 0;">Та энэ шатыг амжилттай дуусгалаа.</p>
-        <button onclick="closeModal()" style="width:100%">Цэс рүү буцах</button>
-    `;
-}
 
-function closeModal() { document.getElementById('gameModal').classList.remove('active'); }
+    function check(u, c) {
+        if (u === c) {
+            score += 20;
+            document.getElementById('score').textContent = score;
+            showFeedback(encouragements[Math.floor(Math.random() * encouragements.length)]);
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff'] });
+
+            currentQIndex++;
+            if (currentQIndex < currentTasks.length) {
+                setTimeout(renderQuestion, 1200);
+            } else {
+                finish();
+            }
+        } else {
+            alert("Буруу байна, дахин оролдоорой! 🤔");
+        }
+    }
+
+    function showFeedback(msg) {
+        const fb = document.createElement('div');
+        fb.style = `position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                    background: #d4af37; color: #000; padding: 15px 30px; border-radius: 50px; 
+                    font-weight: bold; font-size: 1.2rem; z-index: 11000; animation: popUp 1.2s forwards; pointer-events: none;`;
+        fb.innerText = msg;
+        document.body.appendChild(fb);
+        setTimeout(() => fb.remove(), 1200);
+    }
+
+    function finish() {
+        if (currentLvl === unlockedLevel && unlockedLevel < 3) {
+            unlockedLevel++;
+            document.getElementById(`card-${unlockedLevel}`).classList.add('unlocked');
+            document.getElementById('user-lvl').textContent = unlockedLevel;
+        }
+        document.getElementById('gameArea').innerHTML = `
+            <h2 style="color:#d4af37; margin-bottom:10px;">Баяр хүргэе! 🎉</h2>
+            <p style="margin-bottom:20px;">Та энэ шатыг амжилттай дуусгалаа.</p>
+            <button class="game-btn" onclick="closeModal()" style="width:100%">Цэс рүү буцах</button>
+        `;
+    }
+
+    function closeModal() { document.getElementById('gameModal').classList.remove('active'); }
 </script>
 
 </body>
